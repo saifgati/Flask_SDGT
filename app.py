@@ -136,7 +136,7 @@ def device_info():
                 f_temp = "%.2f" % float(temp_k)
                 f_hum = "%.2f" % float(hum_p)
                 if int(float(temp_k)) >= 23:
-                    Over = "Temperature is over limit !!"
+                    Over = "Temperature is over limit !! : " + temp_k
                 Over = ""
                 longitude = y['field3']
                 latitude = y['field4']
@@ -159,7 +159,7 @@ def device_info():
 
             ).add_to(m)
             m.save('templates\location.html')
-            return render_template('device_info.html', temp=f_temp, hum=f_hum, name=name, company=key, city=city)
+            return render_template('device_info.html', temp=f_temp, hum=f_hum, name=name, company=key, city=city , Over = Over)
         except:
 
             return redirect(url_for('device'))
