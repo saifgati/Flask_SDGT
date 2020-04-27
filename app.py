@@ -114,7 +114,7 @@ def device_info():
 
         key = session["key"]
         code_selected = request.form.get('code200')
-        code = db.child(key).child("Devices").child(code_selected).child("device_id").get().val()
+        code = db.child(key).child("Devices").child(code_selected).get().val()
         session["code_selected"] = code
         print(code)
         try:
@@ -292,17 +292,17 @@ def admin():
         if secret == "azibra1595":
             try:
 
-
                 auth.sign_in_with_email_and_password(email_, password_)
-                    # session['usr'] = user_id
-                    # user_id = auth.get_account_info(user['idToken'])
+                # session['usr'] = user_id
+                # user_id = auth.get_account_info(user['idToken'])
                 return redirect(url_for('add_device'))
             except:
                 unsuccessful = 'Please check your credentials'
                 return render_template("admin.html", umessage=unsuccessful)
         unsuccessful = 'Wrong secret '
-        return render_template("admin.html", umessage = unsuccessful)
+        return render_template("admin.html", umessage=unsuccessful)
     return render_template('admin.html')
+
 
 @app.route('/logout_admin')
 def logout_admin():
@@ -317,18 +317,14 @@ def add_device():
             device_ = request.form['Device']
             company = request.form['Company']
             name = request.form['name']
-            visita = request.form['visita']
-            visita_ = timedelta(days=240)
-            visita_ad = visita - visita_
+
             db.child(company).child("Devices").child(name).set(name)
-            db.child(company).child("Devices").child(name).child("device_id").set(device_)
-            db.child(company).child("Devices").child(name).child("visita").set(visita)
+            db.child(company).child("Devices").child(name).set(device_)
 
             return render_template('add_device.html')
 
         return render_template('add_device.html')
     return redirect(url_for("admin"))
-
 
 
 if __name__ == '__main__':
