@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Sign Up</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<link rel="stylesheet" href="../static/assets/css/main.css" />
+
+	</head>
+	<body class="is-preload">
+
+
+
+		<!-- Main -->
+		<section id="main" class="wrapper">
+			<div class="inner">
+				<div class="content">
+					<!-- Elements -->
+
+					<div class="row">
+						<div class="col-2"></div>
+						<div class="col-8">
+                           <h3 class="centered">Sign Up</h3>
+							<form method="POST" action="/signup">
+								<div class="row gtr-uniform">
+										<div class="col-6">
+											<div class="col-12 col-12-xsmall">
+												<input type="text" name="city" id="city" value="" placeholder="City" />
+											</div><br>
+											<div class="col-12 col-12-xsmall">
+												<input type="email" name="email" id="email" value="" placeholder="Email" />
+											</div><br>
+											<div class="col-12 col-12-xsmall">
+												<input type="password" name="password" id="password" value="" placeholder="Password" />
+											</div>
+										</div>
+										<div class="col-6">
+											<div class="col-12 col-12-xsmall">
+												<input type="text" name="name" id="name" value="" placeholder="name" />
+											</div><br>
+											<div class="col-12 col-12-xsmall">
+												<input type="text" name="company" id="company" value="" placeholder="company" />
+											</div><br>
+											<div class="col-12 col-12-xsmall">
+												<input type="text" name="phone" id="phone" value="" placeholder="phone" />
+											</div>
+										</div>
+									<br>
+									<div class="row">
+										<div class="col-7"></div>
+										<div class="col-5">
+                                           <ul class="actions">
+												<li><input type="submit" value="Sign Up" class="primary" /></li>
+												<li><a href="{{ url_for('index') }}" type="submit" class="button">Back Home</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Scripts -->
+			<script src="../static/assets/js/jquery.min.js"></script>
+			<script src="../static/assets/js/browser.min.js"></script>
+			<script src="../static/assets/js/breakpoints.min.js"></script>
+			<script src="../static/assets/js/util.js"></script>
+			<script src="../static/assets/js/main.js"></script>
+
+	</body>
+</html>

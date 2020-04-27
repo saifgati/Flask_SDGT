@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Device Info</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+        <meta name="description" content=""/>
+        <meta name="keywords" content=""/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="../static/assets/css/main.css"/>
+
+    </head>
+
+    <body class="is-preload">
+     <h1 style="background-color: white"> {{Over_limit}}</h1>
+
+    {% if smessage %}
+        <div class="alert alert-success">
+            {{ smessage }}
+        </div>
+    {% endif %}
+
+    {% if umessage %}
+
+        <div class="alert alert-danger">
+            {{ umessage }}
+        </div>
+    {% endif %}
+    <!-- Header -->
+    <header id="header">
+        <a class="logo" href="{{ url_for('index') }}">SDGT</a>
+        <a class="logo" href="{{ url_for('device') }}">Back to device</a>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
+
+    <!-- Nav -->
+    <nav id="menu">
+        <ul class="links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('mission_exist') }}">View existing Missions</a></li>
+            <li><a href="{{ url_for('device') }}">Device Info</a></li>
+            <li><a href="{{ url_for('location') }}">View location</a></li>
+            <li><a href="{{ url_for('weather') }}">Local Weather</a></li>
+            <li><a href="{{ url_for('login') }}">Log Out</a></li>
+        </ul>
+    </nav>
+
+    <!-- Heading -->
+    <div id="heading">
+        <h1>Device Info</h1>
+    </div>
+
+
+    <!-- Main -->
+    <section id="main" class="wrapper">
+        <div class="inner">
+            <div class="content">
+                <!-- Elements -->
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        The current temperature is : {{ temp }} degrees.
+                        <hr/>
+                        The current humidity is : {{ hum }} percent.
+                        <hr/>
+                        Company : {{ company }}
+                        <hr/>
+                        City : {{ city }}
+                        <hr/>
+                        user : {{ name }}
+                        <hr/>
+
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="inner">
+            <div class="row">
+                <div class="col-4">
+                    <section>
+                        <h4>Follow Us on Social Media</h4>
+                        <ul class="plain">
+                            <li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
+                            <li><a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
+                        </ul>
+                    </section>
+                </div>
+                <div class="col-8 copyright">
+                    <br>
+                    &copy; Copyrights <strong>SDGT</strong> | All Rights Reserved
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../static/assets/js/jquery.min.js"></script>
+    <script src="../static/assets/js/browser.min.js"></script>
+    <script src="../static/assets/js/breakpoints.min.js"></script>
+    <script src="../static/assets/js/util.js"></script>
+    <script src="../static/assets/js/main.js"></script>
+
+    </body>
+</html>

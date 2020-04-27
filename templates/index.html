@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Welcome</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="../static/assets/css/main.css" />
+	</head>
+
+	<body class="is-preload">
+		<!-- Header -->
+		<header id="header">
+			<a class="logo" href="{{ url_for('index') }}">SDGT</a>
+			<nav>
+				<a href="#menu">Menu</a>
+			</nav>
+		</header>
+
+		<!-- Nav -->
+		<nav id="menu">
+			<ul class="links">
+				<li><a href="{{ url_for('index') }}">Home</a></li>
+				<li><a href="{{ url_for('login') }}">Log In</a></li>
+				<li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+			</ul>
+		</nav>
+
+		<!-- Banner -->
+		<section id="banner">
+			<div class="inner">
+				<h1>SDGT</h1>
+				<p>Our service make you to control, supervise and get the location of any of your elements , by subscribing in our services you will get full supervision in real time from anyplace in the world ! You can view real time location , speed , temperature and any service you want to add.<br /></p>
+			</div>
+			<video autoplay loop muted playsinline src="../static/images/banner.jpg"></video>
+		</section>
+
+
+		<!-- Highlights -->
+		<section class="wrapper">
+			<div class="inner">
+				<div class="highlights">
+					<section>
+						<div class="content">
+							<header>
+								<a href="#" class="icon fa-map-marker"><span class="label">Icon</span></a>
+								<h3>location</h3>
+							</header>
+							<p>This website will help you to find your vehicle anytime and anyplace.</p>
+						</div>
+					</section>
+					<section>
+						<div class="content">
+							<header>
+								<a href="#" class="icon fa-user-circle"><span class="label">Icon</span></a>
+								<h3>Communication</h3>
+							</header>
+							<p>This website gives you the possibilities to communicate with workers in real time.</p>
+						</div>
+					</section>
+					<section>
+						<div class="content">
+							<header>
+								<a href="#" class="icon fa-dashboard"><span class="label">Icon</span></a>
+								<h3>Information</h3>
+							</header>
+							<p>This website will give you alerts on conditions that you choose and adding sensors possibilities.</p>
+						</div>
+					</section>
+				</div>
+			</div>
+		</section>
+
+		<!-- CTA -->
+		<section id="cta" class="wrapper">
+			<div class="inner">
+			</div>
+		</section>
+
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="inner">
+				<div class="row">
+					<div class="col-4">
+						<section>
+							<h4>Follow Us on Social Media</h4>
+							<ul class="plain">
+								<li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
+								<li><a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
+							</ul>
+						</section>
+					</div>
+					<div class="col-8 copyright">
+						<br>
+						&copy; Copyrights <strong>SDGT</strong> | All Rights Reserved
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+		<script src="../static/assets/js/jquery.min.js"></script>
+		<script src="../static/assets/js/browser.min.js"></script>
+		<script src="../static/assets/js/breakpoints.min.js"></script>
+		<script src="../static/assets/js/util.js"></script>
+		<script src="../static/assets/js/main.js"></script>
+
+	</body>
+</html>
