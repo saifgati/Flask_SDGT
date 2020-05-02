@@ -229,6 +229,8 @@ def mission():
                     db.child(company).child("phone").set(phone)
                     db.child(company).child("date").set(str(created))
                     successful = 'Mission Added'
+                    session["mission"] = mission_
+
                 return render_template('mission.html', smessage=successful)
             except:
                 worker = not worker
@@ -242,37 +244,40 @@ def mission():
 @app.route('/mission_exist', methods=['GET', 'POST'])
 def mission_exist():
     if "key" in session:
-        try:
-            key = session["key"]
-            worker = db.child(key).child('_worker').get().val()
-            phone = db.child(key).child("phone").get().val()
-            mission = db.child(key).child("mission").get().val()
-            company = db.child(key).child("company").get().val()
-            vehicle = db.child(key).child("vehicle").get().val()
-            date = db.child(key).child("date").get().val()
+        if "mission" in session:
+            try:
+                key = session["key"]
+                worker = db.child(key).child('_worker').get().val()
+                phone = db.child(key).child("phone").get().val()
+                mission = db.child(key).child("mission").get().val()
+                company = db.child(key).child("company").get().val()
+                vehicle = db.child(key).child("vehicle").get().val()
+                date = db.child(key).child("date").get().val()
 
-            return render_template('mission_exist.html', worker=worker, mission=mission, phone=phone, company=company,
-                                   vehicle=vehicle, date=date)
-        except:
-            return redirect(url_for('mission'))
+                return render_template('mission_exist.html', worker=worker, mission=mission, phone=phone, company=company,
+                                       vehicle=vehicle, date=date)
+            except :
+                return redirect(url_for('mission'))
+        return redirect(url_for('mission'))
     return redirect(url_for("login"))
 
 
 @app.route('/delete_mission')
 def delete_mission():
-    if "key" in session:
-        try:
-            key = session["key"]
-            worker = db.child(key).child('_worker').remove()
-            phone = db.child(key).child("phone").remove()
-            mission = db.child(key).child("mission").remove()
-            company = db.child(key).child("company").remove()
-            vehicle = db.child(key).child("vehicle").remove()
-            date = db.child(key).child("date").get().remove()
-
-            return redirect(url_for('mission'))
-        except:
-            return redirect(url_for('mission_exist'))
+    if "key" in session :
+        if "mission" in session:
+            try:
+                key = session["key"]
+                worker = db.child(key).child('_worker').remove()
+                phone = db.child(key).child("phone").remove()
+                mission = db.child(key).child("mission").remove()
+                company = db.child(key).child("company").remove()
+                vehicle = db.child(key).child("vehicle").remove()
+                session.pop("mission", None)
+                return redirect(url_for('mission'))
+            except:
+                return redirect(url_for('mission_exist'))
+        return redirect(url_for('mission_exist'))
     return redirect(url_for("login"))
 
 

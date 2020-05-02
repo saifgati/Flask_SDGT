@@ -14,8 +14,8 @@
 	<body class="is-preload">
 		<!-- Header -->
 		<header id="header">
-			<a class="logo" href="index.html">SDGT</a>
-			<a class="logo" href="device.html">Back to device</a>
+			  <a class="logo" href="{{ url_for('index') }}">SDGT</a>
+        <a class="logo" href="{{ url_for('device') }}">Back to device</a>
 			<nav>
 				<a href="#menu">Menu</a>
 			</nav>
@@ -46,38 +46,33 @@
 						<div class="col-3"></div>
 						<div class="col-6">
 						<!-- Form -->
-							<h3 class="centered">Existing Mission</h3>
-							<form method="post" action="#">
+							<form method="post" action="/mission_exist">
 								<div>
 									<div>
-										<p>{{vehicle}}</p>
+										<h3 style="color: #b71824">Mission: <b>{{mission}}</b></h3>
 									</div>
 									<br>
 									<div>
-										<p>{{mission}}</p>
+										<h3>Date:  <strong>{{date}}</strong></h3>
 									</div>
 									<br>
 									<div>
-										<p>{{worker}}</p>
+										<h3>Worker:  <b>{{worker}}</b></h3>
 									</div>
 									<br>
 									<div>
-										<p>{{phone}}</p>
+										<h3>Phone:  <b>{{phone}}</b></h3>
 									</div>
 									<br>
 									<div>
-										<p>{{vehicle}}</p>
-									</div>
-									<br>
-                                    	<div>
-										<p>{{date}}</p>
+										<h3>Vehicle:  <b>{{vehicle}}</b></h3>
 									</div>
 									<br>
 									<div class="row">
 										<div class="col-3"></div>
 										<div class="col-6">
 											<ul class="actions">
-												<li><a href="{{url_for('de')}}" type="submit" class="button">Delete</a></li>
+												<li><a href="{{url_for('delete_mission')}}" type="submit" class="button">Delete</a></li>
 												<li><a href="{{url_for('mission')}}" type="submit" class="button">Add Mission</a></li>
 											</ul>
 										</div>
