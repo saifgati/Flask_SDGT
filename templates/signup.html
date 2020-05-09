@@ -26,32 +26,31 @@
                            <h3 class="centered">Sign Up</h3>
 							<form method="POST" action="/signup">
 								<div class="row gtr-uniform">
-										<div class="col-6">
-											<div class="col-12 col-12-xsmall">
-												<input type="text" name="city" id="city" value="" placeholder="City" />
+
+											<div class="col-6 col-12-xsmall">
+                                                <input type="text" name="city" id="city" value="" placeholder="City" />
 											</div><br>
-											<div class="col-12 col-12-xsmall">
+											<div class="col-6 col-12-xsmall">
 												<input type="email" name="email" id="email" value="" placeholder="Email" />
 											</div><br>
-											<div class="col-12 col-12-xsmall">
+											<div class="col-6 col-12-xsmall">
 												<input type="password" name="password" id="password" value="" placeholder="Password" />
 											</div>
-										</div>
-										<div class="col-6">
-											<div class="col-12 col-12-xsmall">
+
+											<div class="col-6 col-12-xsmall">
 												<input type="text" name="name" id="name" value="" placeholder="name" />
 											</div><br>
-											<div class="col-12 col-12-xsmall">
+											<div class="col-6 col-12-xsmall">
 												<input type="text" name="company" id="company" value="" placeholder="company" />
 											</div><br>
-											<div class="col-12 col-12-xsmall">
+											<div class="col-6 col-12-xsmall">
 												<input type="text" name="phone" id="phone" value="" placeholder="phone" />
 											</div>
-										</div>
+
 									<br>
 									<div class="row">
-										<div class="col-7"></div>
-										<div class="col-5">
+
+										<div class="col-12">
                                            <ul class="actions">
 												<li><input type="submit" value="Sign Up" class="primary" /></li>
 												<li><a href="{{ url_for('index') }}" type="submit" class="button">Back Home</a></li>
