@@ -332,5 +332,40 @@ def add_device():
     return redirect(url_for("admin"))
 
 
+@app.route('/shipments', methods=['GET', 'POST'])
+def shipments():
+
+    return render_template('shipments.html')
+
+
+@app.route('/inventory', methods=['GET', 'POST'])
+def inventory():
+
+    return render_template('inventory.html')
+
+
+@app.route('/field_assets', methods=['GET', 'POST'])
+def field_assets():
+
+    return render_template('field_assets.html')
+
+
+@app.route('/multimodel_shipment_tracking', methods=['GET', 'POST'])
+def multimodel_shipment_tracking():
+
+    return render_template('multimodel_shipment_tracking.html')
+
+
+@app.route('/pharma_cold', methods=['GET', 'POST'])
+def pharma_cold():
+
+    return render_template('pharma_cold.html')
+
+@app.route('/spoilage_monitoring', methods=['GET', 'POST'])
+def spoilage_monitoring():
+
+    return render_template('spoilage_monitoring.html')
+
+
 if __name__ == '__main__':
     app.run()
