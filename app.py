@@ -6,6 +6,7 @@ from simplejson import loads
 import folium
 from datetime import datetime, timedelta
 
+
 config = {
     "apiKey": "AIzaSyANrB_UTh1rfi1NpN_T4gjbImmIJfqadm0",
     "authDomain": "flaskauth-e4bef.firebaseapp.com",
@@ -25,9 +26,12 @@ app.secret_key = "light"
 app.permanent_session_lifetime = timedelta(hours=12)
 
 
+
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    if "key" in session:
+        return render_template("home_index.html")
     return render_template('index.html')
 
 
@@ -37,9 +41,10 @@ def login():
         email = request.form['email']
         password = request.form['password']
         key = request.form['Key']
-        session["key"] = key
+
 
         try:
+            session["key"] = key
             radio_b = request.form['radio']
             auth.sign_in_with_email_and_password(email, password)
             # session['usr'] = user_id

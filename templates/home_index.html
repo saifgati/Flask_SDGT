@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Welcome</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="../static/assets/css/main.css" />
+	</head>
+
+	<body class="is-preload">
+		<!-- Header -->
+		<header id="header">
+			<a class="logo" href="{{ url_for('index') }}">SDGT</a>
+			<nav>
+				<a href="#menu">Menu</a>
+			</nav>
+		</header>
+
+		<!-- Nav -->
+		<nav id="menu">
+			<ul class="links">
+				<li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('device_info') }}">Device Info</a></li>
+				<li><a href="{{ url_for('location') }}">View location</a></li>
+				<li><a href="{{ url_for('weather') }}">Local Weather</a></li>
+                <li><a href="{{ url_for('mission_exist') }}">Existing Mission</a></li>
+                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+			</ul>
+		</nav>
+
+		<!-- Banner -->
+		<section id="banner">
+			<div class="inner">
+				<h1>SDGT</h1>
+				<p>Our service make you to control, supervise and get the location of any of your elements , by subscribing in our services you will get full supervision in real time from anyplace in the world ! You can view real time location , speed , temperature and any service you want to add.<br /></p>
+			</div>
+			<video autoplay loop muted playsinline src="../static/images/banner.jpg"></video>
+		</section>
+
+
+		<!-- Highlights -->
+		<section class="wrapper">
+			<div class="inner">
+				<div class="highlights">
+					<section>
+						<div class="content">
+							<header>
+								<div class="card card-shadow mb-4">
+                                    <a href="{{ url_for('shipments') }}" >
+                                        <div  style="padding-bottom: 0; padding-top: 15px">
+                                            <img src="/static/images/Shipment-Monitoring-1.png"
+                                                 alt="img" class="img-card" height="200">
+                                        </div>
+                                        <br>
+
+                                    </a><div style=" padding-top: 0; padding-bottom: 0; ">
+                                        <h2 style="font-weight:700">Shipments</h2>
+                                    </div>
+                                </div>
+							</header>
+						</div>
+					</section>
+					<section>
+						<div class="content">
+                            <header>
+                                <div class="card card-shadow mb-4">
+                                    <a href="{{ url_for('inventory') }}">
+                                        <div  style="padding-bottom: 0; padding-top: 15px">
+                                            <img src="/static/images/Inventory-Monitoring.png" alt="img" class="img-card" height="200"></div>
+                                        </a><br>
+                                    <h2 style="font-weight:700">Inventory</h2>
+                                </div>
+                            </header>
+
+						</div>
+					</section>
+					<section>
+						<div class="content">
+						 <header>
+                             <div class="card card-shadow mb-4">
+
+                                    <a href="{{ url_for('field_assets') }}">
+                                        <div  style="padding-bottom: 0; padding-top: 15px">
+                                            <img src="/static/images/Field-Asset-Monitoring-1.png" alt="img" class="img-card" height="200"></div>
+                                        </a><br>
+                                    <h2 style="font-weight:700">Field Assets</h2>
+                              </div>
+                            </header>
+						</div>
+					</section>
+				</div>
+			</div>
+		</section>
+
+		<!-- CTA -->
+		<section id="cta" class="wrapper">
+			<div class="inner">
+
+			</div>
+
+		</section>
+        <div class="inner"><br>
+            <h1 style="color: white">  We provide: </h1>
+            <hr>
+            <h3 style="color: white">Real-time Location.</h3>
+            <h3 style="color: white">Real-time Condition.</h3>
+            <h3 style="color: white">Integrates Without IT Effort.</h3>
+            <h3 style="color: white">Automated Response & Real-Time Control.</h3>
+        </div>
+
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="inner">
+				<div class="row">
+					<div class="col-4">
+						<section>
+							<h4>Follow Us on Social Media</h4>
+							<ul class="plain">
+								<li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
+								<li><a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
+							</ul>
+						</section>
+					</div>
+					<div class="col-8 copyright">
+						<br>
+						&copy; Copyrights <strong>SDGT</strong> | All Rights Reserved
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+		<script src="../static/assets/js/jquery.min.js"></script>
+		<script src="../static/assets/js/browser.min.js"></script>
+		<script src="../static/assets/js/breakpoints.min.js"></script>
+		<script src="../static/assets/js/util.js"></script>
+		<script src="../static/assets/js/main.js"></script>
+
+	</body>
+</html>
