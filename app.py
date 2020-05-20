@@ -46,7 +46,9 @@ def login():
         try:
             session["key"] = key
             radio_b = request.form['radio']
-            auth.sign_in_with_email_and_password(email, password)
+            user = auth.sign_in_with_email_and_password(email, password)
+            user_id = auth.get_account_info(user['idToken'])
+
             # session['usr'] = user_id
             # user_id = auth.get_account_info(user['idToken'])
             return redirect(url_for('device'))
@@ -66,7 +68,8 @@ def signup():
         name = request.form['name']
         city = request.form['city']
         try:
-            auth.create_user_with_email_and_password(email, password)
+            user = auth.create_user_with_email_and_password(email, password)
+            auth.send_email_verification(user['idToken'])
             successful = 'Account Created'
             db.child(company).child("company").set(company)
             db.child(company).child("name").set(name)
@@ -151,12 +154,12 @@ def device_info():
             m = folium.Map(location=[long, att], zoom_start=12)
             tooltip: str = "Click for more info"
             folium.Marker([long, att],
-                          popup='<strong>Device One</strong>',
+                          popup=f'<strong>{code}</strong>',
                           tooltip=tooltip
                           , icon=folium.Icon(color='black', icon='cloud')).add_to(m)
             folium.CircleMarker(
                 location=(long, att),
-                radius=50,
+                radius=30,
                 popup='Location',
                 color='#428bca',
                 fill=True,
@@ -227,20 +230,19 @@ def mission():
             created = datetime.utcnow()
             try:
                 if worker and mission_ and phone and vehicle and company:
-                    db.child(company).child("_worker").set(worker)
-                    db.child(company).child("mission").set(mission_)
-                    db.child(company).child("company").set(company)
-                    db.child(company).child("vehicle").set(vehicle)
-                    db.child(company).child("phone").set(phone)
-                    db.child(company).child("date").set(str(created))
+                    db.child(key).child("_worker").set(worker)
+                    db.child(key).child("mission").set(mission_)
+                    db.child(key).child("vehicle").set(vehicle)
+                    db.child(key).child("phone").set(phone)
+                    db.child(key).child("date").set(str(created))
                     successful = 'Mission Added'
                     session["mission"] = mission_
 
                 return render_template('mission.html', smessage=successful)
             except:
-                worker = not worker
+
                 unsuccessful = 'Fill up the mission'
-                render_template('mission.html', umessage=unsuccessful)
+                return render_template('mission.html', umessage=unsuccessful)
 
         return render_template('mission.html')
     return redirect(url_for("login"))
@@ -330,12 +332,30 @@ def add_device():
 
             db.child(company).child("Devices").child(name).set(name)
             db.child(company).child("Devices").child(name).set(device_)
+            smessage = 'Device Added'
 
-            return render_template('add_device.html')
+            return render_template('add_device.html', smessage = smessage)
 
         return render_template('add_device.html')
     return redirect(url_for("admin"))
 
+
+@app.route('/delete_device', methods=['GET', 'POST'])
+def delete_device():
+    if "secret" in session:
+        if request.method == 'POST':
+            device_ = request.form['Device']
+            company = request.form['Company']
+            name = request.form['name']
+
+            db.child(company).child("Devices").child(name).remove(name)
+            db.child(company).child("Devices").child(name).remove(device_)
+            smessage = "Deleted"
+
+            return render_template('add_device.html' , smessage = smessage)
+
+        return render_template('add_device.html')
+    return redirect(url_for("admin"))
 
 @app.route('/shipments', methods=['GET', 'POST'])
 def shipments():
@@ -370,6 +390,45 @@ def pharma_cold():
 def spoilage_monitoring():
 
     return render_template('spoilage_monitoring.html')
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if "key" in session:
+
+        try:
+            key = session["key"]
+            name = db.child(key).child('name').get().val()
+            phone = db.child(key).child("phone").get().val()
+            company = db.child(key).child("company").get().val()
+            city = db.child(key).child("city").get().val()
+            return render_template('profile.html', name=name,phone=phone,company=company, city = city)
+        except:
+            return redirect(url_for('index'))
+
+    return redirect(url_for("login"))
+
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+def edit_profile():
+    if request.method == 'POST':
+        if "key" in session:
+            company = request.form['company']
+            phone = request.form['phone']
+            name = request.form['name']
+            city = request.form['city']
+
+            try:
+                key = session["key"]
+                db.child(key).child('name').set(name)
+                db.child(key).child("phone").set(phone)
+                db.child(key).child("company").set(company)
+                db.child(key).child("city").set(city)
+                return redirect(url_for(profile))
+            except:
+                return render_template('edit_profile.html')
+
+        return redirect(url_for("login"))
+    return render_template("edit_profile.html")
 
 
 if __name__ == '__main__':

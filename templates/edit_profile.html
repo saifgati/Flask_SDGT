@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Sign Up</title>
+		<title>Edit Profile</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="description" content="" />
@@ -23,20 +23,13 @@
 					<div class="row">
 						<div class="col-2"></div>
 						<div class="col-8">
-                           <h3 class="centered">Sign Up</h3>
-							<form method="POST" action="/signup">
+                           <h3 class="centered">Edit Profile</h3>
+							<form method="POST" action="/profile">
 								<div class="row gtr-uniform">
 
 											<div class="col-6 col-12-xsmall">
                                                 <input type="text" name="city" id="city" value="" placeholder="City" />
 											</div><br>
-											<div class="col-6 col-12-xsmall">
-												<input type="email" name="email" id="email" value="" placeholder="Email" />
-											</div><br>
-											<div class="col-6 col-12-xsmall">
-												<input type="password" name="password" id="password" value="" placeholder="Password" />
-											</div>
-
 											<div class="col-6 col-12-xsmall">
 												<input type="text" name="name" id="name" value="" placeholder="Name" />
 											</div><br>
@@ -52,8 +45,8 @@
 
 										<div class="col-12">
                                            <ul class="actions">
-												<li><input type="submit" value="Sign Up" class="primary" /></li>
-												<li><a href="{{ url_for('index') }}" type="submit" class="button">Back Home</a></li>
+												<li><input type="submit" value="Confirm" class="primary" /></li>
+												<li><input type="reset" value="Reset" class="btn btn-light" /></li>
 											</ul>
 										</div>
 									</div>

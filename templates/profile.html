@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Device Info</title>
+        <title>Profile</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
         <meta name="description" content=""/>
@@ -33,14 +33,14 @@
 
     {% if smessage %}
         <div class="alert alert-success">
-            {{ smessage }}
+            successful
         </div>
     {% endif %}
 
     {% if umessage %}
 
         <div class="alert alert-danger">
-            {{ umessage }}
+            failed
         </div>
     {% endif %}
     <!-- Header -->
@@ -60,7 +60,6 @@
             <li><a href="{{ url_for('device') }}">Device Info</a></li>
             <li><a href="{{ url_for('location') }}">View location</a></li>
             <li><a href="{{ url_for('weather') }}">Local Weather</a></li>
-            <li><a href="{{ url_for('profile') }}">Profile</a></li>
             <li><a href="{{ url_for('login') }}">Log Out</a></li>
 
         </ul>
@@ -80,16 +79,16 @@
                 <div class="row">
                     <div class="col-3"></div>
                     <div class="col-6">
-                        The current temperature is : <b>{{ temp }} degrees.</b>
-                        <hr/>
-                        The current humidity is : <b>{{ hum }} percent.</b>
-                        <hr/>
+
                         Company : <b>{{ company }}</b>
                         <hr/>
                         City : <b>{{ city }}</b>
                         <hr/>
                         User : <b>{{ name }}</b>
                         <hr/>
+                        Phone : <b>{{ phone }}</b>
+                        <hr/>
+                        <a href="{{ url_for('edit_profile') }}" type="submit" class="btn btn-dark" >Edit</a>
 
                     </div>
                     <div class="col-3"></div>
