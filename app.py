@@ -116,7 +116,7 @@ def device():
 
 @app.route('/device_info', methods=['GET', 'POST'])
 def device_info():
-    global temp_k, hum_p, Over, f_temp, f_hum, long, att
+    global temp_k, hum_p, Over, f_temp, f_hum, long, att, speed_
     global i, code
     if "key" in session:
 
@@ -148,8 +148,10 @@ def device_info():
                 Over = ""
                 longitude = y['field3']
                 latitude = y['field4']
-                long = 36.79800033569336
-                att = 10.171699523925781
+                long = longitude
+                att = latitude
+                speed = y['field5']
+                speed_ = "%.1f" % float(speed)
                 time.sleep(3)
             m = folium.Map(location=[long, att], zoom_start=12)
             tooltip: str = "Click for more info"
@@ -167,7 +169,7 @@ def device_info():
 
             ).add_to(m)
             m.save('templates\location.html')
-            return render_template('device_info.html', temp=f_temp, hum=f_hum, name=name, company=key, city=city , Over = Over)
+            return render_template('device_info.html', temp=f_temp, hum=f_hum,speed = speed_, name=name, company=key, city=city , Over = Over)
         except:
 
             return redirect(url_for('device'))
@@ -190,8 +192,8 @@ def weather():
             y = x[0]
             longitude = y['field3']
             latitude = y['field4']
-            long = 36.79800033569336
-            att = 10.171699523925781
+            long = longitude
+            att = latitude
             url_weather = requests.get(
                 'http://api.openweathermap.org/data/2.5/weather?lat=' + str(long) + '&lon=' + str(
                     att) + '&appid=0c2b40ce81103e261f0b56bc85b40dff')
@@ -228,6 +230,7 @@ def mission():
             vehicle = request.form['Vehicle']
             phone = request.form['Phone']
             created = datetime.utcnow()
+            worker = str(worker).upper()
             try:
                 if worker and mission_ and phone and vehicle and company:
                     db.child(key).child("_worker").set(worker)
