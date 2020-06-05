@@ -6,7 +6,6 @@ from simplejson import loads
 import folium
 from datetime import datetime, timedelta
 
-
 config = {
     "apiKey": "AIzaSyANrB_UTh1rfi1NpN_T4gjbImmIJfqadm0",
     "authDomain": "flaskauth-e4bef.firebaseapp.com",
@@ -26,7 +25,6 @@ app.secret_key = "light"
 app.permanent_session_lifetime = timedelta(hours=12)
 
 
-
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
@@ -41,7 +39,6 @@ def login():
         email = request.form['email']
         password = request.form['password']
         key = request.form['Key']
-
 
         try:
             session["key"] = key
@@ -61,6 +58,7 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
+
         email = request.form['email']
         password = request.form['password']
         company = request.form['company']
@@ -156,7 +154,7 @@ def device_info():
             m = folium.Map(location=[long, att], zoom_start=12)
             tooltip: str = "Click for more info"
             folium.Marker([long, att],
-                          popup=f'<strong>{code}</strong>',
+                          popup=f'<strong>{code_selected}</strong>',
                           tooltip=tooltip
                           , icon=folium.Icon(color='black', icon='cloud')).add_to(m)
             folium.CircleMarker(
@@ -168,8 +166,17 @@ def device_info():
                 fill_color='#428bca'
 
             ).add_to(m)
+            '''route_lats_longs = [[34.041008, -118.246653],
+                                [36.169726, -115.143996],
+                                [39.739448, -104.992450],
+                                [41.878765, -87.643267],
+                                [40.782949, -73.969559]]
+
+            # add route to map
+            folium.PolyLine(route_lats_longs).add_to(m)'''
             m.save('templates\location.html')
-            return render_template('device_info.html', temp=f_temp, hum=f_hum,speed = speed_, name=name, company=key, city=city , Over = Over)
+            return render_template('device_info.html', temp=f_temp, hum=f_hum, speed=speed_, name=name, company=key,
+                                   city=city, Over=Over)
         except:
 
             return redirect(url_for('device'))
@@ -213,8 +220,11 @@ def weather():
 @app.route('/location', methods=['GET', 'POST'])
 def location():
     if "key" in session:
-        key = session["key"]
-        return render_template('location.html')
+        try:
+            key = session["key"]
+            return render_template('location.html')
+        except:
+            return redirect(url_for("device_info"))
     return redirect(url_for("login"))
 
 
@@ -228,18 +238,25 @@ def mission():
             mission_ = request.form['mission']
             company = request.form['Company']
             vehicle = request.form['Vehicle']
+
+            Destination = request.form['Destination']
             phone = request.form['Phone']
             created = datetime.utcnow()
             worker = str(worker).upper()
+
             try:
                 if worker and mission_ and phone and vehicle and company:
-                    db.child(key).child("_worker").set(worker)
-                    db.child(key).child("mission").set(mission_)
-                    db.child(key).child("vehicle").set(vehicle)
-                    db.child(key).child("phone").set(phone)
-                    db.child(key).child("date").set(str(created))
+                    db.child(key).child("Missions").child(worker).child("_worker").set(worker)
+                    db.child(key).child("Missions").child(worker).child("mission").set(mission_)
+                    db.child(key).child("Missions").child(worker).child("vehicle").set(vehicle)
+                    db.child(key).child("Missions").child(worker).child("Destination").set(Destination)
+
+                    db.child(key).child("Missions").child(worker).child("phone").set(phone)
+                    db.child(key).child("Missions").child(worker).child("date").set(str(created))
                     successful = 'Mission Added'
-                    session["mission"] = mission_
+                    session["mission"] = worker
+
+
 
                 return render_template('mission.html', smessage=successful)
             except:
@@ -251,22 +268,35 @@ def mission():
     return redirect(url_for("login"))
 
 
-@app.route('/mission_exist', methods=['GET', 'POST'])
+@app.route('/mission_by_selection', methods=['GET', 'POST'])
+def mission_by_selection():
+    if "key" in session:
+        key = session["key"]
+        mission_by_selection_ = db.child(key).child("Missions").get()
+
+        return render_template('mission_by_selection.html', mission_by_selection_= mission_by_selection_)
+    return redirect(url_for("login"))
+
+
+@app.route('/mission_exist', methods=['GET', 'POST'])#last mission
 def mission_exist():
     if "key" in session:
         if "mission" in session:
+            worker = session["mission"]
             try:
                 key = session["key"]
-                worker = db.child(key).child('_worker').get().val()
-                phone = db.child(key).child("phone").get().val()
-                mission = db.child(key).child("mission").get().val()
-                company = db.child(key).child("company").get().val()
-                vehicle = db.child(key).child("vehicle").get().val()
-                date = db.child(key).child("date").get().val()
 
-                return render_template('mission_exist.html', worker=worker, mission=mission, phone=phone, company=company,
+                worker = db.child(key).child("Missions").child(worker).child('_worker').get().val()
+                phone = db.child(key).child("Missions").child(worker).child("phone").get().val()
+                mission = db.child(key).child("Missions").child(worker).child("mission").get().val()
+                company = db.child(key).child("Missions").child(worker).child("company").get().val()
+                vehicle = db.child(key).child("Missions").child(worker).child("vehicle").get().val()
+                date = db.child(key).child("Missions").child(worker).child("date").get().val()
+
+                return render_template('mission_exist.html', worker=worker, mission=mission, phone=phone,
+                                       company=company,
                                        vehicle=vehicle, date=date)
-            except :
+            except:
                 return redirect(url_for('mission'))
         return redirect(url_for('mission'))
     return redirect(url_for("login"))
@@ -274,15 +304,17 @@ def mission_exist():
 
 @app.route('/delete_mission')
 def delete_mission():
-    if "key" in session :
+    if "key" in session:
         if "mission" in session:
+            worker = session["mission"]
             try:
                 key = session["key"]
-                worker = db.child(key).child('_worker').remove()
-                phone = db.child(key).child("phone").remove()
-                mission = db.child(key).child("mission").remove()
-                company = db.child(key).child("company").remove()
-                vehicle = db.child(key).child("vehicle").remove()
+                db.child(key).child("Missions").remove()
+                '''worker = db.child(key).child("Missions").child(worker).child('_worker').remove()
+                phone = db.child(key).child("Missions").child(worker).child("phone").remove()
+                mission = db.child(key).child("Missions").child(worker).child("mission").remove()
+                company = db.child(key).child("Missions").child(worker).child("company").remove()
+                vehicle = db.child(key).child("Missions").child(worker).child("vehicle").remove()'''
                 session.pop("mission", None)
                 return redirect(url_for('mission'))
             except:
@@ -290,8 +322,8 @@ def delete_mission():
         return redirect(url_for('mission_exist'))
     return redirect(url_for("login"))
 
-
 @app.route("/logout")
+
 def logout():
     session.pop("key", None)
     return redirect(url_for("login"))
@@ -337,7 +369,7 @@ def add_device():
             db.child(company).child("Devices").child(name).set(device_)
             smessage = 'Device Added'
 
-            return render_template('add_device.html', smessage = smessage)
+            return render_template('add_device.html', smessage=smessage)
 
         return render_template('add_device.html')
     return redirect(url_for("admin"))
@@ -355,44 +387,41 @@ def delete_device():
             db.child(company).child("Devices").child(name).remove(device_)
             smessage = "Deleted"
 
-            return render_template('add_device.html' , smessage = smessage)
+            return render_template('add_device.html', smessage=smessage)
 
         return render_template('add_device.html')
     return redirect(url_for("admin"))
 
+
 @app.route('/shipments', methods=['GET', 'POST'])
 def shipments():
-
     return render_template('shipments.html')
 
 
 @app.route('/inventory', methods=['GET', 'POST'])
 def inventory():
-
     return render_template('inventory.html')
 
 
 @app.route('/field_assets', methods=['GET', 'POST'])
 def field_assets():
-
     return render_template('field_assets.html')
 
 
 @app.route('/multimodel_shipment_tracking', methods=['GET', 'POST'])
 def multimodel_shipment_tracking():
-
     return render_template('multimodel_shipment_tracking.html')
 
 
 @app.route('/pharma_cold', methods=['GET', 'POST'])
 def pharma_cold():
-
     return render_template('pharma_cold.html')
+
 
 @app.route('/spoilage_monitoring', methods=['GET', 'POST'])
 def spoilage_monitoring():
-
     return render_template('spoilage_monitoring.html')
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -404,7 +433,7 @@ def profile():
             phone = db.child(key).child("phone").get().val()
             company = db.child(key).child("company").get().val()
             city = db.child(key).child("city").get().val()
-            return render_template('profile.html', name=name,phone=phone,company=company, city = city)
+            return render_template('profile.html', name=name, phone=phone, company=company, city=city)
         except:
             return redirect(url_for('index'))
 
