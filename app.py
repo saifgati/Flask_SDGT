@@ -236,21 +236,18 @@ def mission():
         if request.method == 'POST':
             worker = request.form['worker']
             mission_ = request.form['mission']
-            company = request.form['Company']
             vehicle = request.form['Vehicle']
-
             Destination = request.form['Destination']
             phone = request.form['Phone']
             created = datetime.utcnow()
             worker = str(worker).upper()
 
             try:
-                if worker and mission_ and phone and vehicle and company:
+                if worker and mission_ and phone and vehicle:
                     db.child(key).child("Missions").child(worker).child("_worker").set(worker)
                     db.child(key).child("Missions").child(worker).child("mission").set(mission_)
                     db.child(key).child("Missions").child(worker).child("vehicle").set(vehicle)
                     db.child(key).child("Missions").child(worker).child("Destination").set(Destination)
-
                     db.child(key).child("Missions").child(worker).child("phone").set(phone)
                     db.child(key).child("Missions").child(worker).child("date").set(str(created))
                     successful = 'Mission Added'
@@ -268,15 +265,31 @@ def mission():
     return redirect(url_for("login"))
 
 
+@app.route('/delete_mission_from_all', methods=['GET', 'POST'])
+def delete_mission_from_all():
+    if "key" in session:
+        key = session["key"]
+        mission_by_selection_ = db.child(key).child("Missions").get()
+        return render_template('delete_mission_from_all.html', mission_by_selection_= mission_by_selection_)
+    return redirect(url_for("login"))
+@app.route('/delete_mission_from_all_selected', methods=['GET', 'POST'])
+def delete_mission_from_all_selected():
+    if "key" in session:
+        key = session["key"]
+        mission_to_delete = request.form.get('mission_to_delete')
+        mission_to_delete = mission_to_delete[:]
+        print(mission_to_delete)
+        db.child(key).child("Missions").child(mission_to_delete).remove()
+        return redirect(url_for("mission_by_selection"))
+    return redirect(url_for("login"))
+
 @app.route('/mission_by_selection', methods=['GET', 'POST'])
 def mission_by_selection():
     if "key" in session:
         key = session["key"]
         mission_by_selection_ = db.child(key).child("Missions").get()
-
         return render_template('mission_by_selection.html', mission_by_selection_= mission_by_selection_)
     return redirect(url_for("login"))
-
 
 @app.route('/mission_exist', methods=['GET', 'POST'])#last mission
 def mission_exist():
@@ -289,13 +302,12 @@ def mission_exist():
                 worker = db.child(key).child("Missions").child(worker).child('_worker').get().val()
                 phone = db.child(key).child("Missions").child(worker).child("phone").get().val()
                 mission = db.child(key).child("Missions").child(worker).child("mission").get().val()
-                company = db.child(key).child("Missions").child(worker).child("company").get().val()
                 vehicle = db.child(key).child("Missions").child(worker).child("vehicle").get().val()
+                destination = db.child(key).child("Missions").child(worker).child("Destination").get().val()
                 date = db.child(key).child("Missions").child(worker).child("date").get().val()
 
                 return render_template('mission_exist.html', worker=worker, mission=mission, phone=phone,
-                                       company=company,
-                                       vehicle=vehicle, date=date)
+                                       vehicle=vehicle, date=date , destination = destination)
             except:
                 return redirect(url_for('mission'))
         return redirect(url_for('mission'))
@@ -309,12 +321,12 @@ def delete_mission():
             worker = session["mission"]
             try:
                 key = session["key"]
-                db.child(key).child("Missions").remove()
-                '''worker = db.child(key).child("Missions").child(worker).child('_worker').remove()
-                phone = db.child(key).child("Missions").child(worker).child("phone").remove()
-                mission = db.child(key).child("Missions").child(worker).child("mission").remove()
-                company = db.child(key).child("Missions").child(worker).child("company").remove()
-                vehicle = db.child(key).child("Missions").child(worker).child("vehicle").remove()'''
+                worker_ = db.child(key).child("Missions").child(worker).remove()
+                #phone = db.child(key).child("Missions").child(worker).child("phone").remove()
+                #mission = db.child(key).child("Missions").child(worker).child("mission").remove()
+                #vehicle = db.child(key).child("Missions").child(worker).child("vehicle").remove()
+                #vehicle = db.child(key).child("Missions").child(worker).child("Destination").remove()
+
                 session.pop("mission", None)
                 return redirect(url_for('mission'))
             except:
@@ -342,13 +354,18 @@ def admin():
                 auth.sign_in_with_email_and_password(email_, password_)
                 # session['usr'] = user_id
                 # user_id = auth.get_account_info(user['idToken'])
-                return redirect(url_for('add_device'))
+                return redirect(url_for('admin_home'))
             except:
                 unsuccessful = 'Please check your credentials'
                 return render_template("admin.html", umessage=unsuccessful)
         unsuccessful = 'Wrong secret '
         return render_template("admin.html", umessage=unsuccessful)
     return render_template('admin.html')
+
+
+@app.route('/admin_home', methods=['GET', 'POST'])
+def admin_home():
+    return render_template('admin_home.html')
 
 
 @app.route('/logout_admin')
@@ -374,7 +391,34 @@ def add_device():
         return render_template('add_device.html')
     return redirect(url_for("admin"))
 
+@app.route('/add_company', methods=['GET', 'POST'])
+def add_company():
+    if "secret" in session:
+        if request.method == 'POST':
+            company = request.form['Company']
+            company_id = request.form['company_id']
 
+            db.set(company)
+            db.child(company).set(company_id)
+            smessage = 'Company Added'
+
+            return render_template('add_company.html', smessage=smessage)
+
+        return render_template('add_company.html')
+    return render_template('admin.html')
+@app.route('/add_worker', methods=['GET', 'POST'])
+def add_worker():
+    if "secret" in session:
+        if request.method == 'POST':
+            company = request.form['Company']
+            Worker_name = request.form['Worker_name']
+            db.child(company).set(Worker_name)
+            smessage = 'Company Added'
+
+            return render_template('add_company.html', smessage=smessage)
+
+        return render_template('add_company.html')
+    return render_template('admin.html')
 @app.route('/delete_device', methods=['GET', 'POST'])
 def delete_device():
     if "secret" in session:
@@ -428,6 +472,7 @@ def profile():
     if "key" in session:
 
         try:
+            edit_profile()
             key = session["key"]
             name = db.child(key).child('name').get().val()
             phone = db.child(key).child("phone").get().val()
@@ -455,9 +500,9 @@ def edit_profile():
                 db.child(key).child("phone").set(phone)
                 db.child(key).child("company").set(company)
                 db.child(key).child("city").set(city)
-                return redirect(url_for(profile))
+                return render_template("profile.html")
             except:
-                return render_template('edit_profile.html')
+                return render_template('profile.html')
 
         return redirect(url_for("login"))
     return render_template("edit_profile.html")

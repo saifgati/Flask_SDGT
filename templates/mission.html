@@ -12,7 +12,7 @@
 	<body class="is-preload">
 		<!-- Header -->
 		<header id="header">
-			<a class="logo" href="index.html">SDGT</a>
+			<a class="logo" href="{{ url_for('index') }}">SDGT</a>
 			<a class="logo" href="device.html">Back to device</a>
 			<nav>
 				<a href="#menu">Menu</a>
@@ -23,7 +23,7 @@
 		<nav id="menu">
 			<ul class="links">
 				<li><a href="{{ url_for('index') }}">Home</a></li>
-				<li><a href="{{ url_for('mission_exist') }}">View existing Missions</a></li>
+				<li><a href="{{ url_for('mission_by_selection') }}">View existing Missions</a></li>
 				<li><a href="{{ url_for('device') }}">Device Info</a></li>
 				<li><a href="{{ url_for('location') }}">View location</a></li>
 				<li><a href="{{ url_for('weather') }}">Local Weather</a></li>
@@ -48,6 +48,17 @@
 						<div class="col-3"></div>
 						<div class="col-6">
 						<!-- Form -->
+                            <br>
+                            {% if smessage %}
+                                <div class="alert alert-success">
+                                    {{ smessage }}
+                                </div>
+                            {% endif %}
+                            {% if umessage %}
+                                <div class="alert alert-danger">
+                                    {{ umessage }}
+                                </div>
+                            {% endif %}
 							<h3 class="centered">Add Mission</h3>
 							<form method="post" action="{{ url_for('mission') }}">
 								<div>
@@ -57,10 +68,6 @@
 									<br>
 									<div>
 										<input type="text" name="mission" id="mission" value="" placeholder="Mission" />
-									</div>
-									<br>
-									<div>
-										<input type="text" name="Company" id="Company" value="" placeholder="Company" />
 									</div>
 									<br>
 									<div>
@@ -86,17 +93,7 @@
 									</div>
 								</div>
 							</form>
-                            <br>
-                            {% if smessage %}
-                                <div class="alert alert-success">
-                                    {{ smessage }}
-                                </div>
-                            {% endif %}
-                            {% if umessage %}
-                                <div class="alert alert-danger">
-                                    {{ umessage }}
-                                </div>
-                            {% endif %}
+
 						</div>
 						<div class="col-3"></div>
 					</div>

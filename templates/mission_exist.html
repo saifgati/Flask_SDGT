@@ -69,12 +69,17 @@
 										<h3>Vehicle:  <b>{{vehicle}}</b></h3>
 									</div>
 									<br>
+                                    <div>
+										<h3>Destination:  <b>{{destination}}</b></h3>
+									</div>
+									<br>
 									<div class="row">
 
 										<div class="col-12">
 											<ul class="actions">
 												<li><a href="{{url_for('delete_mission')}}" type="submit" class="button primary">Delete</a></li>
 												<li><a href="{{url_for('mission')}}" type="submit" class="button">Add Mission</a></li>
+                                                <li><a href="{{url_for('mission_by_selection')}}" type="submit" class="button">View All Missions</a></li>
 											</ul>
 										</div>
 									</div>

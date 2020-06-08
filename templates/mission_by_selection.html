@@ -62,14 +62,26 @@
                                                 <h3 class="card-text">Mission : {{ val.val()["mission"] }}</h3>
                                                 <h3 class="card-title">Phone : {{ val.val()["phone"] }}</h3>
                                                 <h3 class="card-title">Vehicle : {{ val.val()["vehicle"] }}</h3>
+                                                <h3 class="card-title">Vehicle : {{ val.val()["Destination"] }}</h3>
                                                 <h3 class="card-title" style="color: firebrick;">Date : {{ val.val()["date"] }}</h3>
-
                                             </div>
 
                                         </div>
                                         <br>
                                     {% endfor %}
+                                <div class="row">
 
+                                    <div class="col-12">
+                                        <ul class="actions">
+                                            <li><a href="{{ url_for('mission_exist') }}" type="submit"
+                                                   class="button primary">Recently</a></li>
+                                            <li><a href="{{ url_for('mission') }}" type="submit" class="button">Add
+                                                Mission</a></li>
+                                            <li><a href="{{ url_for('delete_mission_from_all') }}" type="submit" class="button icon fa-warning">Delete
+                                                Mission</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
 
                             </form>
                             <br>

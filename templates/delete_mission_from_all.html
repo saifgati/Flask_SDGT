@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Delete Mission</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/assets/css/main.css"/>
+</head>
+
+<body class="is-preload">
+<!-- Header -->
+<header id="header">
+    <a class="logo" href="{{ url_for('index') }}">SDGT</a>
+    <nav>
+        <a href="#menu">Menu</a>
+    </nav>
+</header>
+
+
+<!-- Heading -->
+<div id="heading">
+    <h1>Delete Mission</h1>
+</div>
+
+
+<!-- Main -->
+<section id="main" class="wrapper">
+    <div class="inner">
+        <div class="content">
+            <!-- Elements -->
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <!-- Form -->
+                    <h3 class="centered">Delete Mission</h3>
+                    <form method="POST" action="{{ url_for('delete_mission_from_all_selected') }}">
+                        <select class="input is-large"  type="text" placeholder="Mission" name="mission_to_delete" autofocus="">
+                            <option value="">- Select -</option>
+                            {% for val in mission_by_selection_ %}
+                               <option value="{{ val.key()}}" >{{ val.key() }}</option>
+                            {% endfor %}
+
+                        </select><br>
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <button class="button primary" >Delete</button>
+
+                                <input type="reset" value="Reset" />
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    {% if smessage %}
+                        <div class="alert alert-success">
+                            {{ smessage }}
+                        </div>
+                    {% endif %}
+                    {% if umessage %}
+                        <div class="alert alert-danger">
+                            {{ umessage }}
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer id="footer">
+    <div class="inner">
+        <div class="row">
+            <div class="col-4">
+                <section>
+                    <h4>Follow Us on Social Media</h4>
+                    <ul class="plain">
+                        <li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
+                        <li><a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
+                    </ul>
+                </section>
+            </div>
+            <div class="col-8 copyright">
+                <br>
+                &copy; Copyrights <strong>SDGT</strong> | All Rights Reserved
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="../static/assets/js/jquery.min.js"></script>
+<script src="../static/assets/js/browser.min.js"></script>
+<script src="../static/assets/js/breakpoints.min.js"></script>
+<script src="../static/assets/js/util.js"></script>
+<script src="../static/assets/js/main.js"></script>
+
+</body>
+</html>
