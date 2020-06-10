@@ -16,9 +16,15 @@
 <!-- Header -->
 <header id="header">
     <a class="logo" href="{{ url_for('index') }}">SDGT</a>
-    <nav>
-        <a href="#menu">Menu</a>
-    </nav>
+   <nav id="menu">
+			<ul class="links">
+				<li><a href="{{ url_for('index') }}">Home</a></li>
+				<li><a href="{{ url_for('device_info') }}">Device Info</a></li>
+				<li><a href="{{ url_for('location') }}">View location</a></li>
+				<li><a href="{{ url_for('weather') }}">Local Weather</a></li>
+				<li><a href="{{ url_for('logout') }}">Log Out</a></li>
+			</ul>
+		</nav>
 </header>
 
 

@@ -154,7 +154,7 @@ def device_info():
             m = folium.Map(location=[long, att], zoom_start=12)
             tooltip: str = "Click for more info"
             folium.Marker([long, att],
-                          popup=f'<strong>{code_selected}</strong>',
+                          popup=f'<strong>Speed: {speed_} ID:{code}</strong>',
                           tooltip=tooltip
                           , icon=folium.Icon(color='black', icon='cloud')).add_to(m)
             folium.CircleMarker(
