@@ -413,11 +413,11 @@ def add_worker():
             company = request.form['Company']
             Worker_name = request.form['Worker_name']
             db.child(company).set(Worker_name)
-            smessage = 'Company Added'
+            smessage = 'Worker Added'
 
-            return render_template('add_company.html', smessage=smessage)
+            return render_template('add_worker.html', smessage=smessage)
 
-        return render_template('add_company.html')
+        return render_template('add_worker.html')
     return render_template('admin.html')
 @app.route('/delete_device', methods=['GET', 'POST'])
 def delete_device():
